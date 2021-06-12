@@ -32,8 +32,7 @@ function Calendar() {
       <button className="button" onClick={getPrevMonth}>{`<`}</button>
       {`${selectedDate.getFullYear()}년 ${monthNames[selectedDate.getMonth()]}`}
       <button className="button" onClick={getNextMonth}>{`>`}</button>
-
-      <div>
+      <div className="calendar-table-head">
         {daysShort.map((day) => (
           <span key={day.value}>{day.name}</span>
         ))}
@@ -76,6 +75,13 @@ function Calendar() {
           </div>
         ))}
       </div>
+      {selectedStart
+        ? `시작일자: ${selectedStart.getFullYear()}년 ${selectedStart.getMonth()}월 ${selectedStart.getDate()}일`
+        : ""}
+      <br />
+      {selectedEnd
+        ? `종료일자: ${selectedEnd.getFullYear()}년 ${selectedEnd.getMonth()}월 ${selectedEnd.getDate()}일`
+        : ""}
     </Fragment>
   );
 }
