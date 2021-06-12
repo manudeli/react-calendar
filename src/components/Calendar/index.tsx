@@ -1,76 +1,83 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { CalendarCol } from "./calendarType";
 import useCalendar from "./useCalendar";
 import "./Calendar.scss";
 
-const Calendar = () => {
+function Calendar() {
   const {
-    calendarRows,
     selectedDate,
-    todayFormatted,
     daysShort,
+    calendars,
     monthNames,
-    getNextMonth,
     getPrevMonth,
+    getNextMonth,
   } = useCalendar();
 
-  const dateClickHandler = (date: string) => {
-    console.log(date);
+  const [selectedStart, setSelectedStart] = useState<null | Date>(null);
+  const [selectedEnd, setSelectedEnd] = useState<null | Date>(null);
+
+  const dateClickHandler = (date: Date) => {
+    if (selectedStart && !selectedEnd && !(selectedStart > date))
+      setSelectedEnd(date);
+    else {
+      setSelectedEnd(null);
+      setSelectedStart(date);
+    }
   };
+
+  console.log(selectedStart, selectedEnd);
 
   return (
     <Fragment>
-      <p>
-        <button className="button" onClick={getPrevMonth}>
-          {`<`}
-        </button>
-        {`${selectedDate.getFullYear()}년 ${
-          monthNames[selectedDate.getMonth()]
-        }`}
-        <button className="button" onClick={getNextMonth}>
-          {`>`}
-        </button>
-      </p>
+      <button className="button" onClick={getPrevMonth}>{`<`}</button>
+      {`${selectedDate.getFullYear()}년 ${monthNames[selectedDate.getMonth()]}`}
+      <button className="button" onClick={getNextMonth}>{`>`}</button>
 
-      <table className="table">
-        <thead>
-          <tr>
-            {daysShort.map((day) => (
-              <th key={day}>{day}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {Object.values(calendarRows).map((cols: CalendarCol[]) => {
-            return (
-              <tr key={cols[0].date}>
-                {cols.map((col: CalendarCol) =>
-                  col.date === todayFormatted ? (
-                    <td
-                      style={{ border: "1px solid red" }}
-                      key={col.date}
-                      className={`${col.classes} today`}
-                      onClick={() => dateClickHandler(col.date)}
-                    >
-                      {col.value}
-                    </td>
-                  ) : (
-                    <td
-                      key={col.date}
-                      className={col.classes}
-                      onClick={() => dateClickHandler(col.date)}
-                    >
-                      {col.value}
-                    </td>
-                  )
-                )}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div>
+        {daysShort.map((day) => (
+          <span key={day.value}>{day.name}</span>
+        ))}
+      </div>
+      <div className="calendar-table">
+        {calendars.map((calendar, index) => (
+          <div
+            className={`${
+              selectedStart &&
+              !selectedEnd &&
+              calendar.date.getFullYear() === selectedStart?.getFullYear() &&
+              calendar.date.getMonth() === selectedStart?.getMonth() &&
+              calendar.date.getDate() === selectedStart?.getDate()
+                ? "solo selected"
+                : ""
+            }${
+              selectedStart &&
+              selectedEnd &&
+              selectedStart <= calendar.date &&
+              calendar.date <= selectedEnd
+                ? " selected"
+                : ""
+            }${
+              calendar.date.getFullYear() === selectedStart?.getFullYear() &&
+              calendar.date.getMonth() === selectedStart?.getMonth() &&
+              calendar.date.getDate() === selectedStart?.getDate()
+                ? " start"
+                : ""
+            }${
+              calendar.date.getFullYear() === selectedEnd?.getFullYear() &&
+              calendar.date.getMonth() === selectedEnd?.getMonth() &&
+              calendar.date.getDate() === selectedEnd?.getDate()
+                ? " end"
+                : ""
+            }`}
+            key={index}
+            onClick={() => dateClickHandler(calendar.date)}
+          >
+            <div>{calendar.date.getDate()}</div>
+          </div>
+        ))}
+      </div>
     </Fragment>
   );
-};
+}
 
 export default Calendar;

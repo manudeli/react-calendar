@@ -1,9 +1,8 @@
 export interface CalendarCol {
   classes: string;
-  date: string;
-  value: number;
+  date: object;
 }
 
 export interface CalendarRows {
-  [index: number]: CalendarCol[];
+  [index: number]: CalendarCol;
 }
