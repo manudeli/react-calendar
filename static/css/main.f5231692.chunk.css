@@ -1,2 +1,0 @@
-.calendar-table{width:100%;max-width:500px;height:40vh;background:#fafafa;grid-template-rows:repeat(6,auto)}.calendar-table,.calendar-table-head{display:grid;grid-template-columns:repeat(7,auto)}.date{padding:8px 16px;margin-bottom:4px}.selected{background:tomato}.start{border-top-left-radius:20px;border-bottom-left-radius:20px}.end{border-top-right-radius:20px;border-bottom-right-radius:20px}.solo{border-radius:20px}
-/*# sourceMappingURL=main.f5231692.chunk.css.map */
