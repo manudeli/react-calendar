@@ -1,11 +1,19 @@
 .calendar-table {
   width: 100%;
-  max-width: 500px;
   height: 40vh;
   background: #fafafa;
   display: grid;
   grid-template-rows: repeat(6, auto);
   grid-template-columns: repeat(7, auto);
+}
+
+.button {
+  cursor: pointer;
+  border: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #fafafa;
 }
 
 .calendar-table-head {

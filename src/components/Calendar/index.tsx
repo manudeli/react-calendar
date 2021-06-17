@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import useCalendar from './useCalendar';
 import './Calendar.scss';
 
@@ -24,14 +24,44 @@ function Calendar() {
     }
   };
 
+  const submitHandler = (): void => {
+    if (!selectedStart || !selectedEnd) alert('날짜를 먼저 선택해주세요 😀');
+    else
+      alert(
+        'axios 보낼 내용: ' +
+          `시작일자: ${selectedStart.getFullYear()}년 ${selectedStart.getMonth()}월 ${selectedStart.getDate()}일` +
+          ` 종료일자: ${selectedEnd.getFullYear()}년 ${selectedEnd.getMonth()}월 ${selectedEnd.getDate()}일`
+      );
+  };
+
   console.log(selectedStart, selectedEnd);
 
   return (
-    <Fragment>
-      <button className="button" onClick={getPrevMonth}>{`<`}</button>
-      {`${selectedDate.getFullYear()}년 ${monthNames[selectedDate.getMonth()]}`}
-      <button className="button" onClick={getNextMonth}>{`>`}</button>
-      <div className="calendar-table-head">
+    <div style={{ maxWidth: 400, margin: 'auto' }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          fontSize: 20,
+          fontWeight: 900,
+          textAlign: 'center',
+        }}
+      >
+        <button className="button" onClick={getPrevMonth}>
+          👈
+        </button>
+        🗓
+        {` ${selectedDate.getFullYear()}년 ${
+          monthNames[selectedDate.getMonth()]
+        }`}
+        <button className="button" onClick={getNextMonth}>
+          👉
+        </button>
+      </div>{' '}
+      <div
+        className="calendar-table-head"
+        style={{ textAlign: 'center', color: '#aaa', margin: '10px 0' }}
+      >
         {daysShort.map(day => (
           <span key={day.value}>{day.name}</span>
         ))}
@@ -84,7 +114,9 @@ function Calendar() {
       {selectedEnd
         ? `종료일자: ${selectedEnd.getFullYear()}년 ${selectedEnd.getMonth()}월 ${selectedEnd.getDate()}일`
         : ''}
-    </Fragment>
+      <br />
+      <button onClick={submitHandler}>예약하기</button>
+    </div>
   );
 }
 
